@@ -16,15 +16,20 @@ class ReaderClient:
         print(json.dumps(response.json(), sort_keys=True, indent=4))
 
     def get_book_sources(self, source_url):
-        response = requests.get(source_url)
-        return response.json()
+        try:
+            response = requests.get(source_url)
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"Failed to fetch book sources from {source_url}: {e}")
+            return None
 
     def send_book_sources(self, source_url):
         data = self.get_book_sources(source_url)
-        url = f"{self.reader_url}/saveBookSources/"
-        headers = {"Content-Type": "application/json"}
-        response = self.session.post(url=url, headers=headers, json=data)
-        print(response.json())
+        if data:
+            url = f"{self.reader_url}/saveBookSources/"
+            headers = {"Content-Type": "application/json"}
+            response = self.session.post(url=url, headers=headers, json=data)
+            print(response.json())
 
 # 多个账号和书源地址
 accounts = [
@@ -37,7 +42,7 @@ book_source_urls = [
     "https://www.another-source.com/books.json"
 ]
 
-reader_url = "http://192.168.0.39:7777/reader3"  # reader地址，自己改
+reader_url = "http://192.168.0.39:7777/reader3"  # reader地址
 
 for account in accounts:
     for source_url in book_source_urls:
