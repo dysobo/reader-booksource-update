@@ -31,7 +31,7 @@ class ReaderClient:
             response = self.session.post(url=url, headers=headers, json=data)
             print(response.json())
 
-# 多个账号和书源地址
+# 多个账号和书源地址，此处填写自己的账号和密码
 accounts = [
     {"username": "user1", "password": "password1"},
     {"username": "user2", "password": "password2"}
@@ -42,7 +42,7 @@ book_source_urls = [
     "https://www.another-source.com/books.json"
 ]
 
-reader_url = "http://192.168.0.39:7777/reader3"  # reader地址
+reader_url = "http://192.168.0.39:7777/reader3"  # reader地址，此处可以填外网访问地址
 
 for account in accounts:
     for source_url in book_source_urls:
