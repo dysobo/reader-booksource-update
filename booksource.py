@@ -31,6 +31,11 @@ class ReaderClient:
             response = self.session.post(url=url, headers=headers, json=data)
             print(response.json())
 
+    def delete_book_sources(self):
+        url = f"{self.reader_url}/deleteAllBookSources"
+        response = self.session.post(url)
+        print(response.json())
+
 # 多个账号和书源地址，此处填写自己的账号和密码
 accounts = [
     {"username": "user1", "password": "password1"},
@@ -48,4 +53,5 @@ for account in accounts:
     for source_url in book_source_urls:
         client = ReaderClient(account["username"], account["password"], reader_url)
         client.login()
+        client.delete_book_sources()  # 删除原书源
         client.send_book_sources(source_url)
